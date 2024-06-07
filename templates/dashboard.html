@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.css' rel='stylesheet' />
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.10.1/main.min.js'></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f0f0f0; /* Fallback color if the image is not loaded */
+        }
+        .background-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://5.imimg.com/data5/SELLER/Default/2020/11/JB/HE/NE/2618786/face-recognition-time-attendance-system-500x500.png');
+            background-size: cover; /* Cover the container while maintaining aspect ratio */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat;
+            filter: brightness(70%) contrast(120%); /* Adjust brightness and contrast for visibility */
+        }
+        .container {
+            position: relative;
+            z-index: 1; /* Ensure the content stays above the background image */
+            margin-top: 50px; /* Reduced margin-top */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for better readability */
+            padding: 10px; /* Reduced padding */
+            border-radius: 5px; /* Reduced border radius */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow for depth */
+        }
+        h1 {
+            margin-bottom: 10px; /* Reduced margin-bottom */
+        }
+        button {
+            padding: 8px 16px; /* Reduced padding */
+            font-size: 14px; /* Reduced font-size */
+            cursor: pointer;
+            margin: 5px;
+        }
+       
+        /* Media query for smaller screens */
+        @media screen and (max-width: 768px) {
+            .container {
+                margin-top: 30px; /* Further reduced margin-top */
+            }
+            h1 {
+                font-size: 20px; /* Adjusted font-size for smaller screens */
+            }
+            button {
+                padding: 6px 12px; /* Further reduced padding */
+                font-size: 12px; /* Further reduced font-size */
+            }
+        }
+        footer {
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .taskbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+        }
+        .dropdown {
+            display: inline-block;
+            margin-top: 10px;
+            margin-left: auto;
+            margin-right: 20px; /* Adjusted margin-right for moving to the right */
+        }
+        .right-buttons {
+            display: flex;
+            align-items: center;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+        .user-profile img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        .attendance-para {
+            font-style: italic;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="taskbar">
+        <div class="dropdown">
+            <select>
+                <option value="default">Select Course</option>
+                <option value="math">Mathematics</option>
+                <option value="physics">Physics</option>
+                <option value="chemistry">Chemistry</option>
+                <option value="biology">Biology</option>
+                <option value="history">History</option>
+                <!-- Add more options as needed -->
+            </select>
+        </div>
+        <div class="right-buttons">
+            <div class="user-profile">
+                <img src="https://t4.ftcdn.net/jpg/02/29/75/83/240_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" alt="User Profile">
+                <span>User Name</span>
+            </div>
+            
+            <a href="{{ url_for('login') }}">Login Page</a><br>
+            <a href="{{ url_for('register') }}">Register Page</a><br>
+            <a href="/resources" style="color: #fff; margin-left: 20px;">Resources</a>
+        </div>
+    </div>
+    <div class="background-image"></div>
+    <div class="container">
+        <h1>ATTENDANCE MONITORING SYSTEM</h1>
+        <button onclick="toggleCalendar()">Calendar</button> <!-- Button to toggle calendar visibility -->
+        <p>Click the button below to start recording attendance.</p>
+        <button onclick="startAttendance()">Start Attendance</button>
+    </div>
+
+    <!-- Your existing HTML content -->
+
+    
+    
+    <p class="attendance-para">Revolutionize the way you track attendance with our smart monitoring system. With its intuitive interface and seamless integration, it's never been easier to manage attendance efficiently. From classrooms to boardrooms, our system ensures accurate tracking and streamlined record-keeping. Join us in embracing the future of attendance management.</p>
+    <footer>
+        <p>&copy; 2024 Attendance Monitoring System. All rights reserved.</p>
+    </footer>
+
+    <script>
+    
+       function startAttendance() {
+            // Send a request to the server to start recording attendance
+            fetch('/record-attendance')
+                .then(response => {
+                    if (response.ok) {
+                        alert('Attendance recorded successfully!');
+                        fetchAttendanceStatus(); // Fetch and display attendance status after recording
+                    } else {
+                        alert('Failed to start attendance recording.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again later.');
+                });
+        }
+    </script>
+</body>
+</html>
